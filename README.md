@@ -1,7 +1,6 @@
 # Make_Emotion_OpenCV
 ## PNU_2020_Graduation_Project
 
-___
 
 * 팀번호(Team No): 16
 * 팀명(Team Name): 이모티콘 만들조
