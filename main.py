@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 import cv2
 from model import emotion, mask, glasses, sunglasses
-from util import trans_image_model, face_align
+from util import trans_image_model, face_align, reg_face
 
 # 학습된 모델 가져오기
 model_emotion = emotion()
