@@ -39,12 +39,12 @@ def mask():
     model.add(Dropout(0.5))
 
     model.add(Flatten())
-    model.add(Dense(512, activation='relu'))
+    model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(2, activation = 'sigmoid'))
 
-    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-    model.load_weights("./model/mask_model_5.h5")
+    model.compile(loss='binary_crossentropy', optimizer='adamax', metrics=['accuracy'])
+    model.load_weights("./model/mask_model_ver3.h5")
     return model
 
 def glasses():
@@ -69,9 +69,9 @@ def glasses():
     model.add(Dense(512, activation='relu'))
     model.add(BatchNormalization())
     model.add(Dropout(0.5))
-    model.add(Dense(2, activation = 'softmax'))
+    model.add(Dense(2, activation = 'sigmoid'))
 
-    model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer='adamax', metrics=['accuracy'])
     model.load_weights("./model/glasses_model_1.h5")
     return model
 
@@ -96,4 +96,30 @@ def sunglasses():
 
     model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     model.load_weights("./model/glasses_model_4.h5")
+    return model
+
+
+def skin():
+    model = Sequential()
+
+    model.add(Conv2D(32, kernel_size=(3, 3), activation = 'relu', input_shape = (128, 128, 3)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model.add(Conv2D(64,kernel_size=(3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model.add(Conv2D(128,kernel_size=(3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(3, activation = 'sigmoid'))
+
+    model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['accuracy'])
+    model.load_weights("./model/skin_model_ver2.h5")
+
     return model
