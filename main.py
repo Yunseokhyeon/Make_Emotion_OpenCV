@@ -19,7 +19,7 @@ mask_dict = {0: "mask", 1:"noMask"}
 glasses_dict = {0: "circle", 1:"noGlasses", 2:"sunglasses"}
 
 # 대상 사진파일경로
-file_path = './face/glasses.png'
+file_path = './face/black6.png'
 
 # 대상사진
 image = cv2.imread(file_path)
