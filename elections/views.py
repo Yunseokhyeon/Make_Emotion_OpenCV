@@ -28,6 +28,7 @@ def makeEmoticon(request):
 		captured_image = request.POST.get('captured_image')
 		
 		imgstr = re.search(r'base64,(.*)', captured_image).group(1)
+		origin = imgstr
 		imgstr = base64.b64decode(imgstr)
 		encoded_img = np.fromstring(imgstr, dtype = np.uint8)
 		image = cv2.imdecode(encoded_img, cv2.IMREAD_COLOR)
@@ -41,6 +42,8 @@ def makeEmoticon(request):
 
 		image_data = base64.b64encode(cv2.imencode(".png", emoticon)[1].tostring()).decode("utf-8")
 		ctx["image"] = image_data
+		ctx["origin"] = origin
+
 		return render(request, 'elections/image.html', ctx)
 
 def imageIndex(request):
@@ -61,6 +64,9 @@ def uploadImg(request):
 
 		image_data = base64.b64encode(cv2.imencode(".png", emoticon)[1].tostring()).decode("utf-8")
 		ctx["image"] = image_data
+
+		ctx["origin"] = base64.b64encode(encoded_img).decode("utf-8")
+
 		return render(request, 'elections/image.html', ctx)
 
 
