@@ -36,10 +36,18 @@ def make_emoticon(image):
     # 모델별로 쓰일 이미지 변환
     RGBimage, GRAYimage = trans_image_model(image)
     
+    cv2.imshow("m", RGBimage)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     # 마스크 유무 판별
     model_mask = mask()
     result_mask = model_mask.predict(RGBimage)
-    result['mask'] = mask_dict[int(np.argmax(result_mask[0]))]
+    print("-----------------------")
+    print("마스크 모델확인")
+    print(result_mask)
+    print(result_mask[0])
+    print(np.argmax(result_mask[0]))
+    result['mask'] = mask_dict[np.argmax(result_mask[0])]
     
     code = 0
 
@@ -72,9 +80,16 @@ def make_emoticon(image):
             model_skinGlasses = skinGlasses()
             result_skin = model_skinGlasses.predict(RGBimage)
 
-            maxSkinGlasses = int(np.argmax(result_skin[0]))
+            maxSkinGlasses = np.argmax(result_skin[0])
             result['skin'] = skin_dict[int(maxSkinGlasses/2)]
             result['glasses'] = glasses_dict[int(maxSkinGlasses%2)]
+            print("-------------------")
+            print("피부 안경 모델 확인")
+            print(result_skin)
+            print("maxSkinGlasses = " + str(maxSkinGlasses))
+            print("skin -> ", str(int(maxSkinGlasses/2)) )
+            print("glasses -> ", str(int(maxSkinGlasses%2)) )
+            print("-------------------")
         
             # 안경모델의 결과는 0:안경, 1:안경X
             # 선글라스모델의 결과는 0:선글라스X, 1:선글라스O
@@ -82,8 +97,11 @@ def make_emoticon(image):
             if int(maxSkinGlasses%2) == 0:
                 model_sunglasses = nomask_sunglasses()
                 result_sunglasses = model_sunglasses.predict(RGBimage)
-
                 maxSunglasses = int(np.argmax(result_sunglasses[0]))
+                print("-------------------")
+                print("노마스크 선글라스 모델확인")
+                print(result_sunglasses)
+                print(maxSunglasses)
                 # 선글라스인 경우
                 if maxSunglasses%2 == 1:
                     result['glasses_shape'] = glasses_shape_dict[2]
@@ -96,21 +114,35 @@ def make_emoticon(image):
                         model_roundrec = nomask_roundrec()
                     
                     result_roundrec = model_roundrec.predict(RGBimage)
-                    maxRoundRec = int(np.argmax(result_roundrec[0]))
+                    maxRoundRec = np.argmax(result_roundrec[0])
                     result['glasses_shape'] = glasses_shape_dict[maxRoundRec]
+
+                    print("-------------------")
+                    print("노마스크 안경모양 모델확인")
+                    print(result_roundrec)
+                    print(maxRoundRec)
 
             # 감정인식
             model_emotion = emotion()
             result_emotion = model_emotion.predict(GRAYimage)
-            result['emotion'] = emotion_dict[int(np.argmax(result_emotion))]
+            result['emotion'] = emotion_dict[np.argmax(result_emotion)]
+            print("-------------------")
+            print("감정인식 모델확인")
+            print(result_emotion)
+            print(np.argmax(result_emotion))
     else:
         
         model_skinGlasses = mask_glasses()
         result_skin = model_skinGlasses.predict(RGBimage)
 
-        maxSkinGlasses = int(np.argmax(result_skin[0]))
+        maxSkinGlasses = np.argmax(result_skin[0])
         result['glasses'] = glasses_dict[int(maxSkinGlasses%2)]
         
+        print("-------------------")
+        print("마스크착용 안경모델확인")
+        print(result_skin)
+        print(maxSkinGlasses)
+
         # 안경모델의 결과는 0:안경, 1:안경X
         # 선글라스모델의 결과는 0:선글라스X, 1:선글라스O
         # 안경을 끼고 있는경우 선글라스 모델사용
@@ -118,7 +150,13 @@ def make_emoticon(image):
             model_sunglasses = mask_sunglasses()
             result_sunglasses = model_sunglasses.predict(RGBimage)
 
-            maxSunglasses = int(np.argmax(result_sunglasses[0]))
+            maxSunglasses = np.argmax(result_sunglasses[0])
+
+            print("-------------------")
+            print("마스크착용 선글라스모델확인")
+            print(result_sunglasses)
+            print(maxSunglasses)
+
             # 선글라스인 경우
             if maxSunglasses%2 == 1:
                 result['glasses_shape'] = glasses_shape_dict[2]
@@ -127,15 +165,20 @@ def make_emoticon(image):
                 model_roundrec = mask_roundrec()
                     
                 result_roundrec = model_roundrec.predict(RGBimage)
-                maxRoundRec = int(np.argmax(result_roundrec[0]))
+                maxRoundRec = np.argmax(result_roundrec[0])
                 result['glasses_shape'] = glasses_shape_dict[maxRoundRec]
+
+                print("-------------------")
+                print("마스크착용 안경모양모델확인")
+                print(result_roundrec)
+                print(maxRoundRec)
 
 
     print(result)
     print('#####################################')
 
     # 이모티콘 생성영역
-    face = cv2.imread(BASE_PATH + '/emoticon/face/'+ result['skin'] +'.png')
+    face = cv2.imread(BASE_PATH + '/emoticon/skin/'+ result['skin'] +'.png')
     add_face_part(face, result['emotion'], 'eye', 130, 170) # 눈붙이기
 
     # 마스크 착용인 경우 입 대신 마스크를 착용한다.

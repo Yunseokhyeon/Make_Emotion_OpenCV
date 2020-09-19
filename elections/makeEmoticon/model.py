@@ -73,7 +73,7 @@ def skinGlasses():
     model.add(Dense(6, activation = 'softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-    model.load_weights(BASE_PATH + "/model/skin_model_batch_30_epoch_100.h5")
+    model.load_weights(BASE_PATH + "/model/skin_model_batch_50_epoch_100.h5")
 
     return model
 def nomask_sunglasses():
@@ -194,7 +194,7 @@ def mask_sunglasses():
     model.add(Dropout(0.5))
     model.add(Dense(2, activation = 'sigmoid'))
 
-    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer='Adamax', metrics=['accuracy'])
     model.load_weights(BASE_PATH + "/model/mask_sunglasses_model_final.h5")
     return model
 
