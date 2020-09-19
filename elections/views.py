@@ -1,57 +1,68 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 
 from .models import Candidate, Poll, Choice
+from .makeEmoticon.emoticon import make_emoticon
+
+import cv2
+import numpy as np
+import re
+import base64
 
 import datetime
-import numpy as np
-import pandas as pd
-from keras.preprocessing.image import ImageDataGenerator, load_img
-from keras.utils import to_categorical
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
-import random
-import os
-import natsort
-import warnings
-warnings.filterwarnings('ignore')
-from imutils.face_utils import FaceAligner
-from imutils.face_utils import rect_to_bb
-import imutils
-import dlib
-import cv2 
 
-from PIL import Image
-from skimage import transform
-
-predictor_model = "./landmarks.dat"
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor(predictor_model)
-fa = FaceAligner(predictor, desiredFaceWidth=256)
-#image = open("./irene.png", "rb").read()
+#from .forms import UploadFileForm
 
 # Create your views here.
 def index(request):
-
-	# image = cv2.imread("./irene.png")
-	# #gray = cv2.cvtColor(cv2.UMat(image), cv2.COLOR_BGR2GRAY) #
-	# gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	# rects = detector(gray, 2)
-	# for rect in rects:
-	# 	(x, y, w, h) = rect_to_bb(rect)
-	# 	faceOrig = imutils.resize(image[y:y+h, x:x+w], width=256)
-	# 	faceAligned = fa.align(image, gray, rect)
-
-	# 	cv2.imwrite("alignImage.png",faceAligned)
-	# 	testImage = open("./alignImage.png", "rb").read()
 		return render(request, 'elections/index.html')
 
 
 def captureImage(request):
 	return render(request, 'elections/captureImage.html')
+
+def makeEmoticon(request):
+	if request.method == "POST":
+		captured_image = request.POST.get('captured_image')
+		
+		imgstr = re.search(r'base64,(.*)', captured_image).group(1)
+		imgstr = base64.b64decode(imgstr)
+		encoded_img = np.fromstring(imgstr, dtype = np.uint8)
+		image = cv2.imdecode(encoded_img, cv2.IMREAD_COLOR)
+
+		emoticon, code = make_emoticon(image)		
+		if code == -1:
+			return "얼굴이 1개 이상입니다"
+		elif code == -2:
+			return "얼굴이 없습니다."
+		ctx = {}
+
+		image_data = base64.b64encode(cv2.imencode(".png", emoticon)[1].tostring()).decode("utf-8")
+		ctx["image"] = image_data
+		return render(request, 'elections/image.html', ctx)
+
+def imageIndex(request):
+	return render(request, 'elections/upload.html')
+
+def uploadImg(request):
+	if request.method == 'POST':
+		imgstr = request.FILES['uploadImg'].read()
+		encoded_img = np.fromstring(imgstr, dtype = np.uint8)
+		image = cv2.imdecode(encoded_img, cv2.IMREAD_COLOR)
+
+		emoticon, code = make_emoticon(image)		
+		if code == -1:
+			return "얼굴이 1개 이상입니다"
+		elif code == -2:
+			return "얼굴이 없습니다."
+		ctx = {}
+
+		image_data = base64.b64encode(cv2.imencode(".png", emoticon)[1].tostring()).decode("utf-8")
+		ctx["image"] = image_data
+		return render(request, 'elections/image.html', ctx)
+
 
 def areas(request, area):
 	today = datetime.datetime.now()

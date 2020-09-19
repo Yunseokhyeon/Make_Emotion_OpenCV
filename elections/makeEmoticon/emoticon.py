@@ -1,8 +1,11 @@
 import numpy as np
 import tensorflow as tf
 import cv2
-from model import *
-from util import trans_image_model, reg_face, add_face_part
+from .model import *
+from .util import trans_image_model, reg_face, add_face_part
+import os.path
+
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 # 학습된 모델 가져오기
 model_emotion = ''
@@ -132,7 +135,7 @@ def make_emoticon(image):
     print('#####################################')
 
     # 이모티콘 생성영역
-    face = cv2.imread('./emoticon/face/'+ result['skin'] +'.png')
+    face = cv2.imread(BASE_PATH + '/emoticon/face/'+ result['skin'] +'.png')
     add_face_part(face, result['emotion'], 'eye', 130, 170) # 눈붙이기
 
     # 마스크 착용인 경우 입 대신 마스크를 착용한다.

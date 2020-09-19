@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Make Emoticon</title>
+  
+  </head>
+  <body>
+      <form method="post" enctype="multipart/form-data" action="/uploadImg"  novalidate>
+        {% csrf_token %}
+        <input type="file" accept="image/*" name="uploadImg"/>
+        <button type="submit">Upload</button>
+      </form>
+  </body>
+
+</html>

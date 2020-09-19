@@ -2,6 +2,10 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
 
+import os.path
+
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+
 def emotion():
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
@@ -20,8 +24,10 @@ def emotion():
     model.add(Dropout(0.5))
     model.add(Dense(7, activation='softmax'))
 
+    
+
     model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-    model.load_weights("./model/emotion_model.h5")
+    model.load_weights(BASE_PATH + "/model/emotion_model.h5")
     return model
 
 def mask():
@@ -44,7 +50,7 @@ def mask():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='adamax', metrics=['accuracy'])
-    model.load_weights("./model/mask_model_ver3.h5")
+    model.load_weights(BASE_PATH + "/model/mask_model_ver3.h5")
     return model
 def skinGlasses():
     model = Sequential()
@@ -67,7 +73,7 @@ def skinGlasses():
     model.add(Dense(6, activation = 'softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-    model.load_weights("./model/skin_model_batch_30_epoch_100.h5")
+    model.load_weights(BASE_PATH + "/model/skin_model_batch_30_epoch_100.h5")
 
     return model
 def nomask_sunglasses():
@@ -90,7 +96,7 @@ def nomask_sunglasses():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-    model.load_weights("./model/sunglasses_model_final2.h5")
+    model.load_weights(BASE_PATH + "/model/sunglasses_model_final2.h5")
     return model
 
 def nomask_roundrec():
@@ -115,7 +121,7 @@ def nomask_roundrec():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-    model.load_weights("./model/round_rectangle_model_final.h5")
+    model.load_weights(BASE_PATH + "/model/round_rectangle_model_final.h5")
 
     return model
 
@@ -140,7 +146,7 @@ def nomask_roundrec_black():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-    model.load_weights("./model/round_rectangle_model_final2.h5")
+    model.load_weights(BASE_PATH + "/model/round_rectangle_model_final2.h5")
 
     return model
 
@@ -165,7 +171,7 @@ def mask_glasses():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-    model.load_weights("./model/mask_glasses_model_final3.h5")
+    model.load_weights(BASE_PATH + "/model/mask_glasses_model_final3.h5")
     return model
 
 def mask_sunglasses():
@@ -189,7 +195,7 @@ def mask_sunglasses():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-    model.load_weights("./model/mask_sunglasses_model_final.h5")
+    model.load_weights(BASE_PATH + "/model/mask_sunglasses_model_final.h5")
     return model
 
 def mask_roundrec():
@@ -214,6 +220,6 @@ def mask_roundrec():
     model.add(Dense(2, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-    model.load_weights("./model/mask_round_rectangle_model_final.h5")
+    model.load_weights(BASE_PATH + "/model/mask_round_rectangle_model_final.h5")
 
     return model

@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport" content="width=320; user-scalable=no"/>
+		<meta name="viewport" content="width=320, user-scalable=no"/>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Make Emoticon</title>
-		<script src="/jquery/jquery.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<video autoplay></video>
 	<img src="">
 	<canvas style="display:none;"></canvas>
 
 	
 	</head>
-
-
 		<video id="player" controls autoplay></video>
 		<button id="capture">Capture</button>
-		<canvas id="snapshot" width=320 height=240></canvas>
+		<button id="uploadPage">파일첨부하기</button>
+
+		<form method="POST" action="/makeEmoticon" id="form1">
+			
+
+			<div id = "picture" style="display:none">
+			<canvas id="snapshot" width=320 height=240></canvas>
+			<input type="hidden" id="captured_image" name="captured_image">
+			<input id="submit" type="submit" >
+		</div>
+		</form>
+		
 		<script>
   			var player = document.getElementById('player'); 
   			var snapshotCanvas = document.getElementById('snapshot');
-  			var captureButton = document.getElementById('capture');
-  			var videoTracks;
+			var captureButton = document.getElementById('capture');
+			var submitButton = document.getElementById('submit');
+			var videoTracks;
+			  
+			var uploadPageButton = document.getElementById('uploadPage');
 
   			var handleSuccess = function(stream) {
     			// Attach the video stream to the video element and autoplay.
@@ -28,17 +40,26 @@
     			videoTracks = stream.getVideoTracks();
   			};
 
+
   			captureButton.addEventListener('click', function() {
     			var context = snapshot.getContext('2d');
     			// Draw the video frame to the canvas.
-    			context.drawImage(player, 0, 0, snapshotCanvas.width, 
+    			context.drawImage(player, 10, 10, snapshotCanvas.width, 
         			snapshotCanvas.height);
+				document.getElementById('picture').style.display="";
+				videoTracks.forEach(function(track) {track.stop()})
+				
+				save()
+			});
 
-    			
+			uploadPageButton.addEventListener('click', function() {
+				window.open('/imageIndex')
+			});
 
-
-    			videoTracks.forEach(function(track) {track.stop()})
-  			});
+			function save() {
+				document.getElementById('captured_image').value = snapshotCanvas.toDataURL('image/png')
+				console.log("hi" + document.getElementById('captured_image').value)
+			}
 
   			navigator.mediaDevices.getUserMedia({video: true})
       			.then(handleSuccess);

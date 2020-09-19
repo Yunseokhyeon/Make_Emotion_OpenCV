@@ -3,6 +3,9 @@ import numpy as np
 from skimage import transform, io
 import dlib
 import cv2
+import os.path
+
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 # 모델들이 사용할 수 있게 읽어온 이미지를 원하는 array로 변환
 def trans_image_model(image):
@@ -29,8 +32,8 @@ def trans_image_model(image):
 # 이미지에서 얼굴인식하고 추출
 def reg_face(image):
     
-    prototxtPath = "./face_detector/deploy.prototxt"
-    weightsPath = "./face_detector/res10_300x300_ssd_iter_140000.caffemodel"
+    prototxtPath = BASE_PATH + "/face_detector/deploy.prototxt"
+    weightsPath = BASE_PATH + "/face_detector/res10_300x300_ssd_iter_140000.caffemodel"
     faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 
     (h, w) = image.shape[:2]
@@ -73,7 +76,7 @@ def reg_face(image):
 # 얼굴사진에 얼굴부위 붙이기
 # 얼굴사진, 얼굴부위, 감정, 붙일 좌표
 def add_face_part(face, emotion, face_part, X, Y):
-    part = cv2.imread('./emoticon/'+emotion + '/' + face_part + '.png', -1)
+    part = cv2.imread(BASE_PATH + '/emoticon/'+emotion + '/' + face_part + '.png', -1)
 
     h, w = part.shape[:2]
     b,g,r,a = cv2.split(part) # RGB 채널 + alpha 채널
