@@ -1,16 +1,38 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta name="viewport" content="width=320, user-scalable=no"/>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>Make Emoticon</title>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-	
+<html lang="en">
+    <head>
+    	<header class="masthead">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <div class="container d-flex h-100 align-items-center">
+        	<div class="mx-auto text-center">
+        		<img src="data:image/png;base64,{{origin}}" width="400">
+		<img src="data:image/png;base64,{{image}}" width="400">
+        	</div>
+    	</div>
+    	</header>
     </head>
     <body>
-		<img src="data:image/png;base64,{{origin}}" width="400">
-		<img src="data:image/png;base64,{{image}}" width="400">
+		
+		
+		<script>
+  			
+
+
+
+		</script>
 		
 	</body>
 
