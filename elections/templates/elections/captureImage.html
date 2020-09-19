@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=320; user-scalable=no"/>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Make Emoticon</title>
+		<script src="/jquery/jquery.js"></script>
+		<video autoplay></video>
+	<img src="">
+	<canvas style="display:none;"></canvas>
+
+	
+	</head>
+
+
+		<video id="player" controls autoplay></video>
+		<button id="capture">Capture</button>
+		<canvas id="snapshot" width=320 height=240></canvas>
+		<script>
+  			var player = document.getElementById('player'); 
+  			var snapshotCanvas = document.getElementById('snapshot');
+  			var captureButton = document.getElementById('capture');
+  			var videoTracks;
+
+  			var handleSuccess = function(stream) {
+    			// Attach the video stream to the video element and autoplay.
+    			player.srcObject = stream;
+    			videoTracks = stream.getVideoTracks();
+  			};
+
+  			captureButton.addEventListener('click', function() {
+    			var context = snapshot.getContext('2d');
+    			// Draw the video frame to the canvas.
+    			context.drawImage(player, 0, 0, snapshotCanvas.width, 
+        			snapshotCanvas.height);
+
+    			
+
+
+    			videoTracks.forEach(function(track) {track.stop()})
+  			});
+
+  			navigator.mediaDevices.getUserMedia({video: true})
+      			.then(handleSuccess);
+
+
+
+			</script>
+			<image id="theimage"></image>
+	</body>
+
+</html>

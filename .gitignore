@@ -1,3 +1,12 @@
+#Text backup files
+*.bak
 
+<<<<<<< HEAD
 face/
 kk/
+=======
+#Database
+*.sqlite3
+
+face/
+>>>>>>> da17f15df418f001ad56d0675ffa25d642aad9a4
