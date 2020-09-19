@@ -2,44 +2,50 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta name="viewport" content="width=320, user-scalable=no"/>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>Make Emoticon</title>
+		<header class="masthead">
+			
+			<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+			<title>Make Emoticon</title>
 		        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<video autoplay></video>
-	<img src="">
-	<canvas style="display:none;"></canvas>
+        	<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        	<script src="http://code.jquery.com/jquery-latest.js"></script>
+        	<!-- Google fonts-->
+        	<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        	<!-- Core theme CSS (includes Bootstrap)-->
+        	<link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+			<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+			<video autoplay></video>
 
 	
+	
+			<div class="container d-flex h-100 align-items-center">
+				<video id="player" controls autoplay></video>
+            	<div class="mx-auto text-center">
+                	
+                	<br>
+                	<a class="btn btn-primary js-scroll-trigger" id="capture" class="btn btn-primary js-scroll-trigger">Get Capture</a>
+                	<a class="btn btn-primary js-scroll-trigger" id="uploadPage" class="btn btn-primary js-scroll-trigger">파일첨부하기</a>
+                	<br>
+                	<br>
+                	<br>
+                	<form method="POST" action="/makeEmoticon" id="form1">
+						<div id = "picture" style="display:none"; left:100px>
+							<canvas id="snapshot" width=320 height=240></canvas>
+							<input type="hidden" id="captured_image" name="captured_image">
+							<br>
+							<br>
+							<input class="btn btn-primary js-scroll-trigger" id="submit" type="submit" >
+						</div>
+					</form>
+            	</div>
+        	</div>
+
+        	
+    	</header>
 	</head>
-		<div class="container d-flex h-100 align-items-center">
-            <div class="mx-auto text-center">
-                <video id="player" controls autoplay></video>
-                <br>
-                <br>
-                <a class="btn btn-primary js-scroll-trigger" id="capture" class="btn btn-primary js-scroll-trigger">Get Capture</a>
-                <a class="btn btn-primary js-scroll-trigger" id="uploadPage" class="btn btn-primary js-scroll-trigger">파일첨부하기</a>
-            </div>
-        </div>
+
 		
-
-		<form method="POST" action="/makeEmoticon" id="form1">
-			
-
-			<div id = "picture" style="display:none"; left:100px>
-			<canvas id="snapshot" width=320 height=240></canvas>
-			<input type="hidden" id="captured_image" name="captured_image">
-			<input id="submit" type="submit" >
-		</div>
-		</form>
 		
 		<script>
   			var player = document.getElementById('player'); 
