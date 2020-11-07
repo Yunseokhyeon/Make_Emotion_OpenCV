@@ -9,3 +9,6 @@ kk/
 
 face/
 >>>>>>> da17f15df418f001ad56d0675ffa25d642aad9a4
+
+*.pyc
+__pycache__/

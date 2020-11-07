@@ -64,6 +64,7 @@ def reg_face(image):
             (endX, endY) = (min(w - 1, endX), min(h - 1, endY))
 
             face = image[startY:endY, startX:endX]
+            cv2.imwrite('face.png', face)
             locs.append((startX, startY, endX, endY))
     
     if len(locs) > 1:
